@@ -1,8 +1,9 @@
 #include <Arduino.h>
+#define MAX_LEVEL 5
 
 int actual_led = 0;
 int level = 0;
-int wait[] = {500, 300, 150, 90, 50};
+int wait[MAX_LEVEL] = {500, 300, 150, 90, 50};
 volatile int win = 0;
 int back = 0;
 
@@ -25,9 +26,8 @@ void setup() {
   pinMode(12, OUTPUT);
   pinMode(13, OUTPUT);
   pinMode(2, INPUT);
-  pinMode(2, INPUT);
 
-  attachInterrupt(digitalPinToInterrupt(2), stop, LOW);
+  attachInterrupt(digitalPinToInterrupt(2), stop, HIGH);
 }
 
 void loop() {
@@ -43,7 +43,7 @@ void loop() {
     digitalWrite(8, LOW);
     reset();
     level++;
-    if (level > 4) {
+    if (level >= MAX_LEVEL) {
       level = 0;
       spreadOut();
       spreadIn();
